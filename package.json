@@ -1,0 +1,14 @@
+{
+  "name": "gemini-cli-bench",
+  "version": "0.1.0",
+  "description": "Behavioral evaluation benchmark harness for gemini-cli",
+  "scripts": {
+    "bench": "ts-node scripts/run-bench.ts",
+    "bench:category": "ts-node scripts/run-bench.ts --category"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}
