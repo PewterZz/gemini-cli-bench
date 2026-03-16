@@ -5,7 +5,7 @@ export const newFeatureScenarios: Scenario[] = [
     id: 'feat-001',
     category: 'new-features',
     description: 'Add __repr__ method to a class',
-    prompt: 'Add a __repr__ method to the Product class in product.py.',
+    prompt: 'Add a __repr__ method to the Product class in product.py. Edit the file in place.',
     setup: `cat > product.py << 'EOF'
 class Product:
     def __init__(self, name, price, quantity):
@@ -21,7 +21,7 @@ EOF`,
     id: 'feat-002',
     category: 'new-features',
     description: 'Add input validation to a function',
-    prompt: 'Add input validation to divide in math.py. Raise ValueError if denominator is 0, TypeError if inputs are not numbers.',
+    prompt: 'Add input validation to divide in math.py. Raise ValueError if denominator is 0, TypeError if inputs are not numbers. Edit the file in place.',
     setup: `cat > math.py << 'EOF'
 def divide(a, b):
     return a / b
@@ -35,7 +35,7 @@ EOF`,
     id: 'feat-003',
     category: 'new-features',
     description: 'Add retry logic to an HTTP function',
-    prompt: 'Add retry logic to fetch_url in http.py. Retry up to 3 times on failure with 1 second delay.',
+    prompt: 'Add retry logic to fetch_url in http.py. Retry up to 3 times on failure with 1 second delay. Edit the file in place.',
     setup: `cat > http.py << 'EOF'
 import urllib.request
 
@@ -51,7 +51,7 @@ EOF`,
     id: 'feat-004',
     category: 'new-features',
     description: 'Add pagination to a list function',
-    prompt: 'Add pagination support to get_items in store.py. Add page and page_size parameters.',
+    prompt: 'Add pagination support to get_items in store.py. Add page and page_size parameters. Edit the file in place.',
     setup: `cat > store.py << 'EOF'
 ITEMS = list(range(100))
 
@@ -67,7 +67,7 @@ EOF`,
     id: 'feat-005',
     category: 'new-features',
     description: 'Add caching with lru_cache',
-    prompt: 'Add memoization to the fibonacci function in fib.py using functools.lru_cache.',
+    prompt: 'Add memoization to the fibonacci function in fib.py using functools.lru_cache. Edit the file in place.',
     setup: `cat > fib.py << 'EOF'
 def fibonacci(n):
     if n <= 1:
@@ -82,7 +82,7 @@ EOF`,
     id: 'feat-006',
     category: 'new-features',
     description: 'Add logging to an existing function',
-    prompt: 'Add Python logging to process_order in orders.py. Log at INFO level when order starts and completes.',
+    prompt: 'Add Python logging to process_order in orders.py. Log at INFO level when order starts and completes. Edit the file in place.',
     setup: `cat > orders.py << 'EOF'
 def process_order(order_id, items):
     total = sum(item["price"] for item in items)
@@ -97,7 +97,7 @@ EOF`,
     id: 'feat-007',
     category: 'new-features',
     description: 'Add a context manager to a resource class',
-    prompt: 'Add __enter__ and __exit__ methods to the DatabaseConnection class in db.py.',
+    prompt: 'Add __enter__ and __exit__ methods to the DatabaseConnection class in db.py. Edit the file in place.',
     setup: `cat > db.py << 'EOF'
 class DatabaseConnection:
     def __init__(self, host, port):
@@ -120,7 +120,7 @@ EOF`,
     id: 'feat-008',
     category: 'new-features',
     description: 'Add a CLI argument parser',
-    prompt: 'Add argparse-based CLI argument parsing to script.py. Add --input and --output arguments.',
+    prompt: 'Add argparse-based CLI argument parsing to script.py. Add --input and --output arguments. Edit the file in place.',
     setup: `cat > script.py << 'EOF'
 def main():
     print("running script")
@@ -138,7 +138,7 @@ EOF`,
     id: 'feat-009',
     category: 'new-features',
     description: 'Add type hints to all functions',
-    prompt: 'Add type hints to all function signatures in utils.py.',
+    prompt: 'Add type hints to all function signatures in utils.py. Edit the file in place.',
     setup: `cat > utils.py << 'EOF'
 def add(a, b):
     return a + b
@@ -158,7 +158,7 @@ EOF`,
     id: 'feat-010',
     category: 'new-features',
     description: 'Add a unit test file',
-    prompt: 'Write a test file test_calculator.py with pytest tests for all functions in calculator.py.',
+    prompt: 'Write a test file test_calculator.py with pytest tests for all functions in calculator.py. Edit the file in place.',
     setup: `cat > calculator.py << 'EOF'
 def add(a, b):
     return a + b
