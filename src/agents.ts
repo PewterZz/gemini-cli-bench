@@ -1,4 +1,4 @@
-export type AgentId = 'gemini' | 'claude' | 'codex';
+export type AgentId = 'gemini' | 'gemini-api' | 'claude' | 'codex';
 
 export interface AgentConfig {
   id: AgentId;
@@ -12,6 +12,16 @@ export const AGENTS: Record<AgentId, AgentConfig> = {
     id: 'gemini',
     label: 'Gemini CLI',
     buildCommand: (prompt) => ['gemini', '-p', prompt, '--yolo'],
+  },
+  'gemini-api': {
+    id: 'gemini-api',
+    label: 'Gemini API (direct)',
+    buildCommand: (prompt) => [
+      'node',
+      `${__dirname}/../scripts/gemini-api-agent.mjs`,
+      prompt,
+    ],
+    env: { GEMINI_API_KEY: 'AIzaSyCXavPGgGmnqVPQQlPlVWuf7uhOcXRQXa0' },
   },
   claude: {
     id: 'claude',

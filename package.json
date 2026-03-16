@@ -7,7 +7,8 @@
     "bench:gemini": "ts-node scripts/run-bench.ts --agent gemini",
     "bench:claude": "ts-node scripts/run-bench.ts --agent claude",
     "bench:codex": "ts-node scripts/run-bench.ts --agent codex",
-    "bench:category": "ts-node scripts/run-bench.ts --category"
+    "bench:category": "ts-node scripts/run-bench.ts --category",
+    "bench:gemini-api": "ts-node scripts/run-bench.ts --agent gemini-api"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

@@ -174,4 +174,244 @@ EOF`,
       { type: 'file-contains', target: 'test_calculator.py', value: 'def test_' },
     ],
   },
+  {
+    id: 'feat-011',
+    category: 'new-features',
+    description: 'Add a property with getter and setter',
+    prompt: 'Add a temperature property to the Sensor class in sensor.py with a getter and a setter that rejects negative values. Edit the file in place.',
+    setup: `cat > sensor.py << 'EOF'
+class Sensor:
+    def __init__(self, name):
+        self.name = name
+        self._temperature = 0.0
+EOF`,
+    assertions: [
+      { type: 'file-contains', target: 'sensor.py', value: '@property' },
+      { type: 'file-contains', target: 'sensor.py', value: '@temperature.setter' },
+    ],
+  },
+  {
+    id: 'feat-012',
+    category: 'new-features',
+    description: 'Add rate limiting decorator',
+    prompt: 'Add a rate_limit decorator to decorators.py that restricts calls to at most N per second. Edit the file in place.',
+    setup: `cat > decorators.py << 'EOF'
+import time
+
+# Add a rate_limit(calls_per_second) decorator here
+EOF`,
+    assertions: [
+      { type: 'file-contains', target: 'decorators.py', value: 'def rate_limit' },
+      { type: 'file-contains', target: 'decorators.py', value: 'def decorator' },
+    ],
+  },
+  {
+    id: 'feat-013',
+    category: 'new-features',
+    description: 'Add CSV export method to a class',
+    prompt: 'Add a to_csv() method to the Report class in report.py that writes its data to a CSV string. Edit the file in place.',
+    setup: `cat > report.py << 'EOF'
+class Report:
+    def __init__(self, headers, rows):
+        self.headers = headers
+        self.rows = rows
+EOF`,
+    assertions: [
+      { type: 'file-contains', target: 'report.py', value: 'def to_csv' },
+      { type: 'file-contains', target: 'report.py', value: 'csv' },
+    ],
+  },
+  {
+    id: 'feat-014',
+    category: 'new-features',
+    description: 'Add environment variable config loading',
+    prompt: 'Add a load_from_env() function to config.py that reads DATABASE_URL, PORT, and DEBUG from environment variables, with defaults. Edit the file in place.',
+    setup: `cat > config.py << 'EOF'
+DEFAULT_PORT = 3000
+DEFAULT_DEBUG = False
+EOF`,
+    assertions: [
+      { type: 'file-contains', target: 'config.py', value: 'load_from_env' },
+      { type: 'file-contains', target: 'config.py', value: 'os.environ' },
+    ],
+  },
+  {
+    id: 'feat-015',
+    category: 'new-features',
+    description: 'Add sorting support to a collection class',
+    prompt: 'Add a sorted_by(key) method to the Catalog class in catalog.py that returns items sorted by the given attribute. Edit the file in place.',
+    setup: `cat > catalog.py << 'EOF'
+class Catalog:
+    def __init__(self):
+        self.items = []
+
+    def add(self, item):
+        self.items.append(item)
+EOF`,
+    assertions: [
+      { type: 'file-contains', target: 'catalog.py', value: 'def sorted_by' },
+      { type: 'file-contains', target: 'catalog.py', value: 'sorted(' },
+    ],
+  },
+  {
+    id: 'feat-016',
+    category: 'new-features',
+    description: 'Add JSON serialization to a class',
+    prompt: 'Add to_json() and from_json() class methods to the Config class in settings.py. Edit the file in place.',
+    setup: `cat > settings.py << 'EOF'
+class Config:
+    def __init__(self, host, port, debug):
+        self.host = host
+        self.port = port
+        self.debug = debug
+EOF`,
+    assertions: [
+      { type: 'file-contains', target: 'settings.py', value: 'def to_json' },
+      { type: 'file-contains', target: 'settings.py', value: 'def from_json' },
+      { type: 'file-contains', target: 'settings.py', value: 'import json' },
+    ],
+  },
+  {
+    id: 'feat-017',
+    category: 'new-features',
+    description: 'Add timeout support to a function',
+    prompt: 'Add a timeout parameter to run_task in tasks.py that raises TimeoutError if the function exceeds the limit. Edit the file in place.',
+    setup: `cat > tasks.py << 'EOF'
+import time
+
+def run_task(fn, *args):
+    return fn(*args)
+EOF`,
+    assertions: [
+      { type: 'file-contains', target: 'tasks.py', value: 'timeout' },
+      { type: 'file-contains', target: 'tasks.py', value: 'TimeoutError' },
+    ],
+  },
+  {
+    id: 'feat-018',
+    category: 'new-features',
+    description: 'Add filtering to a query function',
+    prompt: 'Add keyword filter support to search_products in products.py. The function should accept optional min_price and max_price parameters. Edit the file in place.',
+    setup: `cat > products.py << 'EOF'
+PRODUCTS = [
+    {"name": "apple", "price": 1.0},
+    {"name": "laptop", "price": 999.0},
+    {"name": "book", "price": 15.0},
+]
+
+def search_products(query):
+    return [p for p in PRODUCTS if query.lower() in p["name"].lower()]
+EOF`,
+    assertions: [
+      { type: 'file-contains', target: 'products.py', value: 'min_price' },
+      { type: 'file-contains', target: 'products.py', value: 'max_price' },
+    ],
+  },
+  {
+    id: 'feat-019',
+    category: 'new-features',
+    description: 'Add __eq__ and __hash__ to a class',
+    prompt: 'Add __eq__ and __hash__ methods to the Color class in colors.py so instances can be compared and used in sets/dicts. Edit the file in place.',
+    setup: `cat > colors.py << 'EOF'
+class Color:
+    def __init__(self, r, g, b):
+        self.r = r
+        self.g = g
+        self.b = b
+EOF`,
+    assertions: [
+      { type: 'file-contains', target: 'colors.py', value: '__eq__' },
+      { type: 'file-contains', target: 'colors.py', value: '__hash__' },
+    ],
+  },
+  {
+    id: 'feat-020',
+    category: 'new-features',
+    description: 'Add batch processing to a single-item function',
+    prompt: 'Add a process_batch(items) function to processor.py that calls process_item on each item and returns a list of results. Edit the file in place.',
+    setup: `cat > processor.py << 'EOF'
+def process_item(item):
+    return item.strip().upper()
+EOF`,
+    assertions: [
+      { type: 'file-contains', target: 'processor.py', value: 'def process_batch' },
+    ],
+  },
+  {
+    id: 'feat-021',
+    category: 'new-features',
+    description: 'Add structured error class hierarchy',
+    prompt: 'Add AppError, ValidationError, and NotFoundError exception classes to exceptions.py. ValidationError and NotFoundError should inherit from AppError. Edit the file in place.',
+    setup: `cat > exceptions.py << 'EOF'
+# Define custom exceptions here
+EOF`,
+    assertions: [
+      { type: 'file-contains', target: 'exceptions.py', value: 'class AppError' },
+      { type: 'file-contains', target: 'exceptions.py', value: 'class ValidationError' },
+      { type: 'file-contains', target: 'exceptions.py', value: 'class NotFoundError' },
+    ],
+  },
+  {
+    id: 'feat-022',
+    category: 'new-features',
+    description: 'Add configurable output format to a reporter',
+    prompt: 'Add a format parameter to generate_report in reporter.py supporting "text" and "json" output. Edit the file in place.',
+    setup: `cat > reporter.py << 'EOF'
+def generate_report(data):
+    lines = [f"- {k}: {v}" for k, v in data.items()]
+    return "\n".join(lines)
+EOF`,
+    assertions: [
+      { type: 'file-contains', target: 'reporter.py', value: 'format' },
+      { type: 'file-contains', target: 'reporter.py', value: 'json' },
+    ],
+  },
+  {
+    id: 'feat-023',
+    category: 'new-features',
+    description: 'Add iteration support to a custom class',
+    prompt: 'Add __iter__ and __next__ to the NumberRange class in ranges.py so it can be used in a for loop. Edit the file in place.',
+    setup: `cat > ranges.py << 'EOF'
+class NumberRange:
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+EOF`,
+    assertions: [
+      { type: 'file-contains', target: 'ranges.py', value: '__iter__' },
+      { type: 'file-contains', target: 'ranges.py', value: '__next__' },
+    ],
+  },
+  {
+    id: 'feat-024',
+    category: 'new-features',
+    description: 'Add health check endpoint to Flask app',
+    prompt: 'Add a /health GET endpoint to app.py that returns JSON {"status": "ok"}. Edit the file in place.',
+    setup: `cat > app.py << 'EOF'
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return 'Hello World'
+EOF`,
+    assertions: [
+      { type: 'file-contains', target: 'app.py', value: '/health' },
+      { type: 'file-contains', target: 'app.py', value: 'status' },
+    ],
+  },
+  {
+    id: 'feat-025',
+    category: 'new-features',
+    description: 'Add diff functionality between two text files',
+    prompt: 'Add a diff_files(path_a, path_b) function to differ.py that returns the unified diff between two files as a string. Edit the file in place.',
+    setup: `cat > differ.py << 'EOF'
+# Add diff_files function here
+EOF`,
+    assertions: [
+      { type: 'file-contains', target: 'differ.py', value: 'def diff_files' },
+      { type: 'file-contains', target: 'differ.py', value: 'difflib' },
+    ],
+  },
 ];
