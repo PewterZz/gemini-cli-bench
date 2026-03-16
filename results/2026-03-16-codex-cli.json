@@ -1,0 +1,821 @@
+{
+  "timestamp": "2026-03-16T13:21:08.142Z",
+  "agent": "Codex CLI",
+  "agentVersion": "codex-cli 0.25.0",
+  "overallScore": 0.025,
+  "categoryScores": {
+    "debugging": 0.1,
+    "refactoring": 0,
+    "new-features": 0,
+    "code-review": 0
+  },
+  "scenarios": [
+    {
+      "id": "debug-001",
+      "category": "debugging",
+      "description": "Fix off-by-one error in loop bounds",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "sum_list.py",
+          "value": "range(len(items))",
+          "passed": false,
+          "actual": "def sum_list(items):\n    total = 0\n    for i in range(len(items) - 1):\n        total += items[i]\n    return total\n"
+        }
+      ],
+      "durationMs": 64
+    },
+    {
+      "id": "debug-002",
+      "category": "debugging",
+      "description": "Fix missing return statement",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "calculator.py",
+          "value": "return result",
+          "passed": false,
+          "actual": "def multiply(a, b):\n    result = a * b\n\ndef add(a, b):\n    return a + b\n"
+        }
+      ],
+      "durationMs": 59
+    },
+    {
+      "id": "debug-003",
+      "category": "debugging",
+      "description": "Fix wrong base case in recursive function",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "math_utils.py",
+          "value": "n == 0",
+          "passed": false,
+          "actual": "def factorial(n):\n    if n == 1:\n        return 1\n    return n * factorial(n - 1)\n"
+        }
+      ],
+      "durationMs": 59
+    },
+    {
+      "id": "debug-004",
+      "category": "debugging",
+      "description": "Fix broken import path",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "app.py",
+          "value": "from utils import helper",
+          "passed": false,
+          "actual": "from lib.utils import helper\nresult = helper()\n"
+        }
+      ],
+      "durationMs": 61
+    },
+    {
+      "id": "debug-005",
+      "category": "debugging",
+      "description": "Fix string concatenation type error",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "greet.py",
+          "value": "str(age)",
+          "passed": false,
+          "actual": "def greet(name, age):\n    return \"Hello \" + name + \", you are \" + age + \" years old.\"\n"
+        }
+      ],
+      "durationMs": 58
+    },
+    {
+      "id": "debug-006",
+      "category": "debugging",
+      "description": "Fix mutable default argument bug",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "store.py",
+          "value": "items=None",
+          "passed": false,
+          "actual": "def add_item(item, items=[]):\n    items.append(item)\n    return items\n"
+        }
+      ],
+      "durationMs": 59
+    },
+    {
+      "id": "debug-007",
+      "category": "debugging",
+      "description": "Fix integer division bug",
+      "passed": true,
+      "score": 1,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "stats.py",
+          "value": "float",
+          "passed": true,
+          "actual": "def average(numbers):\n    return sum(numbers) / len(numbers)\n\n# In Python 2, this was floor division — ensure float division in Python 3\n# Bug: result is always truncated to integer\nresult = int(sum(["
+        }
+      ],
+      "durationMs": 58
+    },
+    {
+      "id": "debug-008",
+      "category": "debugging",
+      "description": "Fix wrong comparison operator",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "palindrome.py",
+          "value": "==",
+          "passed": false,
+          "actual": "def is_palindrome(s):\n    reversed_s = s[::-1]\n    if reversed_s is s:\n        return True\n    return False\n"
+        }
+      ],
+      "durationMs": 60
+    },
+    {
+      "id": "debug-009",
+      "category": "debugging",
+      "description": "Fix incorrect dictionary key access",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "users.py",
+          "value": ".get(",
+          "passed": false,
+          "actual": "def get_user_name(user_dict):\n    return user_dict['name']\n"
+        }
+      ],
+      "durationMs": 60
+    },
+    {
+      "id": "debug-010",
+      "category": "debugging",
+      "description": "Fix infinite loop due to missing increment",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "loop.py",
+          "value": "n -= 1",
+          "passed": false,
+          "actual": "def count_down(n):\n    result = []\n    while n > 0:\n        result.append(n)\n    return result\n"
+        }
+      ],
+      "durationMs": 59
+    },
+    {
+      "id": "refactor-001",
+      "category": "refactoring",
+      "description": "DRY up duplicated validation logic",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "validate.py",
+          "value": "def validate_required",
+          "passed": false,
+          "actual": "def validate_email(data):\n    if not data:\n        raise ValueError(\"data is required\")\n    if len(data) < 3:\n        raise ValueError(\"data too short\")\n    if \"@\" not in data:\n        raise ValueErro"
+        }
+      ],
+      "durationMs": 59
+    },
+    {
+      "id": "refactor-002",
+      "category": "refactoring",
+      "description": "Convert callback-style to async/await in JavaScript",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "fetch_data.js",
+          "value": "async",
+          "passed": false,
+          "actual": "const fs = require('fs');\n\nfunction readConfig(callback) {\n    fs.readFile('config.json', 'utf8', function(err, data) {\n        if (err) {\n            callback(err, null);\n        } else {\n           "
+        },
+        {
+          "type": "file-contains",
+          "target": "fetch_data.js",
+          "value": "await",
+          "passed": false,
+          "actual": "const fs = require('fs');\n\nfunction readConfig(callback) {\n    fs.readFile('config.json', 'utf8', function(err, data) {\n        if (err) {\n            callback(err, null);\n        } else {\n           "
+        }
+      ],
+      "durationMs": 59
+    },
+    {
+      "id": "refactor-003",
+      "category": "refactoring",
+      "description": "Replace multiple parameters with options object",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "user.py",
+          "value": "options",
+          "passed": false,
+          "actual": "def create_user(name, email, age, role, active):\n    return {\n        \"name\": name,\n        \"email\": email,\n        \"age\": age,\n        \"role\": role,\n        \"active\": active,\n    }\n"
+        }
+      ],
+      "durationMs": 59
+    },
+    {
+      "id": "refactor-004",
+      "category": "refactoring",
+      "description": "Replace nested ternary with clear if/else",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "grade.py",
+          "value": "elif",
+          "passed": false,
+          "actual": "def get_grade(score):\n    return \"A\" if score >= 90 else \"B\" if score >= 80 else \"C\" if score >= 70 else \"D\" if score >= 60 else \"F\"\n"
+        }
+      ],
+      "durationMs": 60
+    },
+    {
+      "id": "refactor-005",
+      "category": "refactoring",
+      "description": "Extract magic numbers into named constants",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "tax.py",
+          "value": "=",
+          "passed": false,
+          "actual": "def calculate_tax(income):\n    if income > 100000:\n        return income * 0.35\n    elif income > 50000:\n        return income * 0.25\n    else:\n        return income * 0.15\n"
+        },
+        {
+          "type": "file-not-contains",
+          "target": "tax.py",
+          "value": "0.35",
+          "passed": false
+        }
+      ],
+      "durationMs": 60
+    },
+    {
+      "id": "refactor-006",
+      "category": "refactoring",
+      "description": "Replace list comprehension with generator for memory efficiency",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "process.py",
+          "value": "yield",
+          "passed": false,
+          "actual": "def large_squares(n):\n    return [x * x for x in range(n) if x * x > 100]\n"
+        }
+      ],
+      "durationMs": 59
+    },
+    {
+      "id": "refactor-007",
+      "category": "refactoring",
+      "description": "Split long function into smaller functions",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "report.py",
+          "value": "def validate",
+          "passed": false,
+          "actual": "def generate_report(data):\n    # Validate\n    if not data:\n        raise ValueError(\"no data\")\n    if not isinstance(data, list):\n        raise TypeError(\"data must be a list\")\n\n    # Transform\n    cl"
+        }
+      ],
+      "durationMs": 59
+    },
+    {
+      "id": "refactor-008",
+      "category": "refactoring",
+      "description": "Replace string formatting with f-strings",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "logger.py",
+          "value": "f\"",
+          "passed": false,
+          "actual": "def log(level, message, user):\n    print(\"[%s] User %s: %s\" % (level, user, message))\n\ndef warn(message, user):\n    print(\"[WARN] User %s: %s\" % (user, message))\n"
+        },
+        {
+          "type": "file-not-contains",
+          "target": "logger.py",
+          "value": "% (",
+          "passed": false
+        }
+      ],
+      "durationMs": 61
+    },
+    {
+      "id": "refactor-009",
+      "category": "refactoring",
+      "description": "Replace class with dataclass",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "point.py",
+          "value": "@dataclass",
+          "passed": false,
+          "actual": "class Point:\n    def __init__(self, x, y, z):\n        self.x = x\n        self.y = y\n        self.z = z\n"
+        }
+      ],
+      "durationMs": 60
+    },
+    {
+      "id": "refactor-010",
+      "category": "refactoring",
+      "description": "Simplify boolean expression",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "check.py",
+          "value": "return 0 < x < 100",
+          "passed": false,
+          "actual": "def is_valid(x):\n    if x > 0:\n        if x < 100:\n            return True\n        else:\n            return False\n    else:\n        return False\n"
+        }
+      ],
+      "durationMs": 60
+    },
+    {
+      "id": "feat-001",
+      "category": "new-features",
+      "description": "Add __repr__ method to a class",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "product.py",
+          "value": "__repr__",
+          "passed": false,
+          "actual": "class Product:\n    def __init__(self, name, price, quantity):\n        self.name = name\n        self.price = price\n        self.quantity = quantity\n"
+        }
+      ],
+      "durationMs": 58
+    },
+    {
+      "id": "feat-002",
+      "category": "new-features",
+      "description": "Add input validation to a function",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "math.py",
+          "value": "ValueError",
+          "passed": false,
+          "actual": "def divide(a, b):\n    return a / b\n"
+        },
+        {
+          "type": "file-contains",
+          "target": "math.py",
+          "value": "TypeError",
+          "passed": false,
+          "actual": "def divide(a, b):\n    return a / b\n"
+        }
+      ],
+      "durationMs": 60
+    },
+    {
+      "id": "feat-003",
+      "category": "new-features",
+      "description": "Add retry logic to an HTTP function",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "http.py",
+          "value": "retry",
+          "passed": false,
+          "actual": "import urllib.request\n\ndef fetch_url(url):\n    response = urllib.request.urlopen(url)\n    return response.read().decode()\n"
+        }
+      ],
+      "durationMs": 59
+    },
+    {
+      "id": "feat-004",
+      "category": "new-features",
+      "description": "Add pagination to a list function",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "store.py",
+          "value": "page",
+          "passed": false,
+          "actual": "ITEMS = list(range(100))\n\ndef get_items():\n    return ITEMS\n"
+        },
+        {
+          "type": "file-contains",
+          "target": "store.py",
+          "value": "page_size",
+          "passed": false,
+          "actual": "ITEMS = list(range(100))\n\ndef get_items():\n    return ITEMS\n"
+        }
+      ],
+      "durationMs": 59
+    },
+    {
+      "id": "feat-005",
+      "category": "new-features",
+      "description": "Add caching with lru_cache",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "fib.py",
+          "value": "lru_cache",
+          "passed": false,
+          "actual": "def fibonacci(n):\n    if n <= 1:\n        return n\n    return fibonacci(n - 1) + fibonacci(n - 2)\n"
+        }
+      ],
+      "durationMs": 59
+    },
+    {
+      "id": "feat-006",
+      "category": "new-features",
+      "description": "Add logging to an existing function",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "orders.py",
+          "value": "import logging",
+          "passed": false,
+          "actual": "def process_order(order_id, items):\n    total = sum(item[\"price\"] for item in items)\n    return {\"order_id\": order_id, \"total\": total, \"status\": \"processed\"}\n"
+        },
+        {
+          "type": "file-contains",
+          "target": "orders.py",
+          "value": ".info(",
+          "passed": false,
+          "actual": "def process_order(order_id, items):\n    total = sum(item[\"price\"] for item in items)\n    return {\"order_id\": order_id, \"total\": total, \"status\": \"processed\"}\n"
+        }
+      ],
+      "durationMs": 59
+    },
+    {
+      "id": "feat-007",
+      "category": "new-features",
+      "description": "Add a context manager to a resource class",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "db.py",
+          "value": "__enter__",
+          "passed": false,
+          "actual": "class DatabaseConnection:\n    def __init__(self, host, port):\n        self.host = host\n        self.port = port\n        self.connected = False\n\n    def connect(self):\n        self.connected = True\n\n  "
+        },
+        {
+          "type": "file-contains",
+          "target": "db.py",
+          "value": "__exit__",
+          "passed": false,
+          "actual": "class DatabaseConnection:\n    def __init__(self, host, port):\n        self.host = host\n        self.port = port\n        self.connected = False\n\n    def connect(self):\n        self.connected = True\n\n  "
+        }
+      ],
+      "durationMs": 59
+    },
+    {
+      "id": "feat-008",
+      "category": "new-features",
+      "description": "Add a CLI argument parser",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "script.py",
+          "value": "argparse",
+          "passed": false,
+          "actual": "def main():\n    print(\"running script\")\n\nif __name__ == \"__main__\":\n    main()\n"
+        },
+        {
+          "type": "file-contains",
+          "target": "script.py",
+          "value": "--input",
+          "passed": false,
+          "actual": "def main():\n    print(\"running script\")\n\nif __name__ == \"__main__\":\n    main()\n"
+        },
+        {
+          "type": "file-contains",
+          "target": "script.py",
+          "value": "--output",
+          "passed": false,
+          "actual": "def main():\n    print(\"running script\")\n\nif __name__ == \"__main__\":\n    main()\n"
+        }
+      ],
+      "durationMs": 61
+    },
+    {
+      "id": "feat-009",
+      "category": "new-features",
+      "description": "Add type hints to all functions",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "utils.py",
+          "value": "int",
+          "passed": false,
+          "actual": "def add(a, b):\n    return a + b\n\ndef greet(name):\n    return f\"Hello, {name}\"\n\ndef get_items(data, limit):\n    return data[:limit]\n"
+        },
+        {
+          "type": "file-contains",
+          "target": "utils.py",
+          "value": "str",
+          "passed": false,
+          "actual": "def add(a, b):\n    return a + b\n\ndef greet(name):\n    return f\"Hello, {name}\"\n\ndef get_items(data, limit):\n    return data[:limit]\n"
+        }
+      ],
+      "durationMs": 58
+    },
+    {
+      "id": "feat-010",
+      "category": "new-features",
+      "description": "Add a unit test file",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-exists",
+          "target": "test_calculator.py",
+          "value": "",
+          "passed": false
+        },
+        {
+          "type": "file-contains",
+          "target": "test_calculator.py",
+          "value": "def test_",
+          "passed": false,
+          "actual": "<file missing>"
+        }
+      ],
+      "durationMs": 58
+    },
+    {
+      "id": "review-001",
+      "category": "code-review",
+      "description": "Identify SQL injection vulnerability",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-exists",
+          "target": "issues.txt",
+          "value": "",
+          "passed": false
+        },
+        {
+          "type": "file-contains",
+          "target": "issues.txt",
+          "value": "SQL",
+          "passed": false,
+          "actual": "<file missing>"
+        }
+      ],
+      "durationMs": 61
+    },
+    {
+      "id": "review-002",
+      "category": "code-review",
+      "description": "Flag hardcoded credentials",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-exists",
+          "target": "security-report.txt",
+          "value": "",
+          "passed": false
+        },
+        {
+          "type": "file-contains",
+          "target": "security-report.txt",
+          "value": "hardcoded",
+          "passed": false,
+          "actual": "<file missing>"
+        }
+      ],
+      "durationMs": 60
+    },
+    {
+      "id": "review-003",
+      "category": "code-review",
+      "description": "Catch missing error handling",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-exists",
+          "target": "review.txt",
+          "value": "",
+          "passed": false
+        }
+      ],
+      "durationMs": 62
+    },
+    {
+      "id": "review-004",
+      "category": "code-review",
+      "description": "Identify inefficient algorithm",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-exists",
+          "target": "perf-report.txt",
+          "value": "",
+          "passed": false
+        },
+        {
+          "type": "file-contains",
+          "target": "perf-report.txt",
+          "value": "O(n",
+          "passed": false,
+          "actual": "<file missing>"
+        }
+      ],
+      "durationMs": 64
+    },
+    {
+      "id": "review-005",
+      "category": "code-review",
+      "description": "Spot missing input sanitization in web handler",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-exists",
+          "target": "findings.txt",
+          "value": "",
+          "passed": false
+        },
+        {
+          "type": "file-contains",
+          "target": "findings.txt",
+          "value": "XSS",
+          "passed": false,
+          "actual": "<file missing>"
+        }
+      ],
+      "durationMs": 68
+    },
+    {
+      "id": "review-006",
+      "category": "code-review",
+      "description": "Identify race condition in multi-threaded code",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-exists",
+          "target": "thread-report.txt",
+          "value": "",
+          "passed": false
+        },
+        {
+          "type": "file-contains",
+          "target": "thread-report.txt",
+          "value": "race",
+          "passed": false,
+          "actual": "<file missing>"
+        }
+      ],
+      "durationMs": 68
+    },
+    {
+      "id": "review-007",
+      "category": "code-review",
+      "description": "Flag use of deprecated API",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-exists",
+          "target": "crypto-review.txt",
+          "value": "",
+          "passed": false
+        },
+        {
+          "type": "file-contains",
+          "target": "crypto-review.txt",
+          "value": "MD5",
+          "passed": false,
+          "actual": "<file missing>"
+        }
+      ],
+      "durationMs": 64
+    },
+    {
+      "id": "review-008",
+      "category": "code-review",
+      "description": "Identify missing pagination causing memory issues",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-exists",
+          "target": "scalability.txt",
+          "value": "",
+          "passed": false
+        },
+        {
+          "type": "file-contains",
+          "target": "scalability.txt",
+          "value": "pagination",
+          "passed": false,
+          "actual": "<file missing>"
+        }
+      ],
+      "durationMs": 67
+    },
+    {
+      "id": "review-009",
+      "category": "code-review",
+      "description": "Spot missing __all__ export control",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-exists",
+          "target": "api-design.txt",
+          "value": "",
+          "passed": false
+        },
+        {
+          "type": "file-contains",
+          "target": "api-design.txt",
+          "value": "__all__",
+          "passed": false,
+          "actual": "<file missing>"
+        }
+      ],
+      "durationMs": 66
+    },
+    {
+      "id": "review-010",
+      "category": "code-review",
+      "description": "Identify inconsistent error handling patterns",
+      "passed": false,
+      "score": 0,
+      "assertionResults": [
+        {
+          "type": "file-exists",
+          "target": "inconsistencies.txt",
+          "value": "",
+          "passed": false
+        },
+        {
+          "type": "file-contains",
+          "target": "inconsistencies.txt",
+          "value": "inconsistent",
+          "passed": false,
+          "actual": "<file missing>"
+        }
+      ],
+      "durationMs": 63
+    }
+  ]
+}

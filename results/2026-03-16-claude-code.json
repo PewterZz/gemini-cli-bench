@@ -1,0 +1,31 @@
+{
+  "timestamp": "2026-03-16T14:02:35.410Z",
+  "agent": "Claude Code",
+  "agentVersion": "2.1.5 (Claude Code)",
+  "overallScore": 0.25,
+  "categoryScores": {
+    "debugging": 1,
+    "refactoring": 0,
+    "new-features": 0,
+    "code-review": 0
+  },
+  "scenarios": [
+    {
+      "id": "debug-001",
+      "category": "debugging",
+      "description": "Fix off-by-one error in loop bounds",
+      "passed": true,
+      "score": 1,
+      "assertionResults": [
+        {
+          "type": "file-contains",
+          "target": "sum_list.py",
+          "value": "range(len(items))",
+          "passed": true,
+          "actual": "def sum_list(items):\n    total = 0\n    for i in range(len(items)):\n        total += items[i]\n    return total\n"
+        }
+      ],
+      "durationMs": 18009
+    }
+  ]
+}

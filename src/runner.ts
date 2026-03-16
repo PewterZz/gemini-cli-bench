@@ -52,6 +52,20 @@ export function runScenario(scenario: Scenario, agent: AgentConfig = AGENTS.gemi
     // Run setup
     execSync(scenario.setup, { cwd: workdir, shell: '/bin/bash', timeout: 10000 });
 
+    // Init git repo (required by Codex, harmless for others)
+    execSync('git init && git add -A && git commit -m "init" --allow-empty', {
+      cwd: workdir,
+      shell: '/bin/bash',
+      timeout: 10000,
+      env: {
+        ...process.env,
+        GIT_AUTHOR_NAME: 'bench',
+        GIT_AUTHOR_EMAIL: 'bench@bench.local',
+        GIT_COMMITTER_NAME: 'bench',
+        GIT_COMMITTER_EMAIL: 'bench@bench.local',
+      },
+    });
+
     // Run agent
     const [cmd, ...args] = agent.buildCommand(scenario.prompt);
     const result = spawnSync(cmd, args, {

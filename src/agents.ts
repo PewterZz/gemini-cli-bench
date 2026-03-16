@@ -28,8 +28,8 @@ export const AGENTS: Record<AgentId, AgentConfig> = {
     label: 'Codex CLI',
     buildCommand: (prompt) => [
       'codex',
-      'exec',
-      '-c', 'sandbox_permissions=["disk-full-read-access","shell"]',
+      '--full-auto',
+      '-q',
       prompt,
     ],
   },
