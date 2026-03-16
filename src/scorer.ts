@@ -1,14 +1,19 @@
-import { BenchmarkResults, Category, ScenarioResult } from './types';
 import { execSync } from 'child_process';
+import { AgentConfig, AGENTS } from './agents';
+import { BenchmarkResults, Category, ScenarioResult } from './types';
 
-export function score(results: ScenarioResult[]): BenchmarkResults {
-  let geminiVersion = 'unknown';
+function getAgentVersion(agent: AgentConfig): string {
   try {
-    geminiVersion = execSync('gemini --version', { encoding: 'utf8' }).trim();
+    if (agent.id === 'gemini') return execSync('gemini --version', { encoding: 'utf8' }).trim();
+    if (agent.id === 'claude') return execSync('claude --version', { encoding: 'utf8' }).trim().split('\n')[0];
+    if (agent.id === 'codex') return execSync('codex --version', { encoding: 'utf8' }).trim().split('\n')[0];
+    return 'unknown';
   } catch {
-    // gemini not installed or not in PATH
+    return 'unknown';
   }
+}
 
+export function score(results: ScenarioResult[], agent: AgentConfig = AGENTS.gemini): BenchmarkResults {
   const categories: Category[] = ['debugging', 'refactoring', 'new-features', 'code-review'];
   const categoryScores = {} as Record<Category, number>;
 
@@ -27,7 +32,8 @@ export function score(results: ScenarioResult[]): BenchmarkResults {
 
   return {
     timestamp: new Date().toISOString(),
-    geminiVersion,
+    agent: agent.label,
+    agentVersion: getAgentVersion(agent),
     overallScore,
     categoryScores,
     scenarios: results,

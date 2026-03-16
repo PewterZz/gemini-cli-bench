@@ -9,7 +9,7 @@ function pct(n: number): string {
 export function printSummary(results: BenchmarkResults): void {
   console.log('\n## gemini-cli-bench Results\n');
   console.log(`Timestamp : ${results.timestamp}`);
-  console.log(`gemini    : ${results.geminiVersion}`);
+  console.log(`Agent     : ${results.agent} ${results.agentVersion}`);
   console.log(`Overall   : ${pct(results.overallScore)}\n`);
 
   const categories: Category[] = ['debugging', 'refactoring', 'new-features', 'code-review'];
@@ -38,7 +38,8 @@ export function printSummary(results: BenchmarkResults): void {
 export function saveResults(results: BenchmarkResults, outDir = 'results'): string {
   fs.mkdirSync(outDir, { recursive: true });
   const date = new Date().toISOString().slice(0, 10);
-  const outPath = path.join(outDir, `${date}.json`);
+  const agentSlug = results.agent.toLowerCase().replace(/\s+/g, '-');
+  const outPath = path.join(outDir, `${date}-${agentSlug}.json`);
   fs.writeFileSync(outPath, JSON.stringify(results, null, 2));
   return outPath;
 }

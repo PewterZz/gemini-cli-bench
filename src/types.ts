@@ -43,7 +43,8 @@ export interface ScenarioResult {
 
 export interface BenchmarkResults {
   timestamp: string;
-  geminiVersion: string;
+  agent: string;
+  agentVersion: string;
   overallScore: number;
   categoryScores: Record<Category, number>;
   scenarios: ScenarioResult[];

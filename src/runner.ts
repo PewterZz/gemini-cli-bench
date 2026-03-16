@@ -2,6 +2,7 @@ import { execSync, spawnSync } from 'child_process';
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
+import { AgentConfig, AGENTS } from './agents';
 import { Assertion, AssertionResult, Scenario, ScenarioResult } from './types';
 
 function evalAssertion(assertion: Assertion, workdir: string, stdout: string): AssertionResult {
@@ -43,7 +44,7 @@ function evalAssertion(assertion: Assertion, workdir: string, stdout: string): A
   }
 }
 
-export function runScenario(scenario: Scenario): ScenarioResult {
+export function runScenario(scenario: Scenario, agent: AgentConfig = AGENTS.gemini): ScenarioResult {
   const start = Date.now();
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), `gcb-${scenario.id}-`));
 
@@ -51,11 +52,13 @@ export function runScenario(scenario: Scenario): ScenarioResult {
     // Run setup
     execSync(scenario.setup, { cwd: workdir, shell: '/bin/bash', timeout: 10000 });
 
-    // Run gemini-cli
-    const result = spawnSync('gemini', ['-p', scenario.prompt, '--yolo'], {
+    // Run agent
+    const [cmd, ...args] = agent.buildCommand(scenario.prompt);
+    const result = spawnSync(cmd, args, {
       cwd: workdir,
       timeout: 120000,
       encoding: 'utf8',
+      env: { ...process.env, ...agent.env },
     });
 
     const stdout = (result.stdout || '') + (result.stderr || '');
