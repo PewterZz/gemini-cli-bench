@@ -2,9 +2,9 @@
 /**
  * Minimal Gemini API coding agent.
  * Reads files from cwd, sends prompt + file contents to Gemini API,
- * parses file changes from response, writes them back.
+ * parses file changes from JSON response, writes them back.
  *
- * Usage: node gemini-api-agent.mjs "<prompt>"
+ * Usage: GEMINI_API_KEY=... node gemini-api-agent.mjs "<prompt>"
  */
 
 import * as fs from 'node:fs';
@@ -24,7 +24,6 @@ if (!prompt) {
 
 const cwd = process.cwd();
 
-// Read all text files in cwd (non-recursive, skip .git and binaries)
 function readWorkdir(dir) {
   const files = {};
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -50,13 +49,13 @@ const systemPrompt = `You are a coding assistant. The user will give you a task.
 
 ${fileContext || '(no files yet)'}
 
-Complete the task. For each file you need to create or modify, output it in this exact format:
+Complete the task. Return ONLY valid JSON in this exact shape:
+{"files":[{"name":"path/to/file.ext","content":"full file contents"}]}
 
---- FILE: <filename> ---
-<complete file contents>
---- END FILE ---
-
-Output ONLY the files that need to be created or changed. Do not explain, do not add commentary outside the file blocks.`;
+Rules:
+- Include every created or modified file in the files array.
+- Use complete file contents, not diffs or partial updates.
+- Do not include markdown fences, commentary, or anything outside the JSON object.`;
 
 const body = {
   contents: [
@@ -92,16 +91,45 @@ try {
   process.exit(1);
 }
 
+console.error(`[gemini-api-agent] response preview: ${responseText.slice(0, 300)}`);
 console.log(responseText);
 
-// Parse and apply file changes
-const filePattern = /--- FILE: (.+?) ---\n([\s\S]*?)--- END FILE ---/g;
-let match;
+function parseFilesFromResponse(text) {
+  const candidates = [text.trim()];
+
+  // Also try extracting from fenced code blocks in case model wrapped in ```json
+  const fencedJsonPattern = /```(?:json)?\s*([\s\S]*?)```/gi;
+  let fencedMatch;
+  while ((fencedMatch = fencedJsonPattern.exec(text)) !== null) {
+    candidates.push(fencedMatch[1].trim());
+  }
+
+  for (const candidate of candidates) {
+    if (!candidate) continue;
+    try {
+      const parsed = JSON.parse(candidate);
+      const files = Array.isArray(parsed) ? parsed : parsed?.files;
+      if (!Array.isArray(files)) continue;
+      return files
+        .filter(
+          (f) =>
+            f &&
+            typeof f.name === 'string' &&
+            typeof f.content === 'string',
+        )
+        .map((f) => ({ name: f.name, content: f.content }));
+    } catch {
+      // try next candidate
+    }
+  }
+
+  return [];
+}
+
+const filesToWrite = parseFilesFromResponse(responseText);
 let written = 0;
 
-while ((match = filePattern.exec(responseText)) !== null) {
-  const filename = match[1].trim();
-  const content = match[2];
+for (const { name: filename, content } of filesToWrite) {
   const filePath = path.join(cwd, filename);
 
   // Only write files within cwd (no path traversal)
@@ -116,7 +144,7 @@ while ((match = filePattern.exec(responseText)) !== null) {
   written++;
 }
 
-if (written === 0 && responseText.trim()) {
-  // Model responded but didn't use file blocks — write stdout for assertions
-  // that check stdout-contains
+if (written === 0) {
+  console.error('[gemini-api-agent] No files written. Full response:');
+  console.error(responseText);
 }
