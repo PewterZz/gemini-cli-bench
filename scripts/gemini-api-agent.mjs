@@ -12,7 +12,7 @@ import * as path from 'node:path';
 
 const API_KEY = process.env.GEMINI_API_KEY;
 if (!API_KEY) {
-  console.error('GEMINI_API_KEY not set');
+  console.error('GEMINI_API_KEY env var not set');
   process.exit(1);
 }
 

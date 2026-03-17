@@ -21,7 +21,7 @@ export const AGENTS: Record<AgentId, AgentConfig> = {
       `${__dirname}/../scripts/gemini-api-agent.mjs`,
       prompt,
     ],
-    env: { GEMINI_API_KEY: 'AIzaSyCXavPGgGmnqVPQQlPlVWuf7uhOcXRQXa0' },
+    env: {},
   },
   claude: {
     id: 'claude',
